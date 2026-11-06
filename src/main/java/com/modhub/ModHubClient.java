@@ -1,10 +1,12 @@
 package com.modhub;
 
+import com.modhub.hud.MiniMap;
 import com.modhub.screen.ModHubScreen;
 import com.modhub.screen.TitleScreenButton;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
@@ -23,6 +25,7 @@ public class ModHubClient implements ClientModInitializer {
     /** Jar names present when the game started. Java mods cannot be hot-loaded, so changes need a restart. */
     private static Set<String> startupJars = Set.of();
     private static KeyBinding openKey;
+    private static KeyBinding miniMapKey;
 
     public static Path modsDir() {
         return FabricLoader.getInstance().getGameDir().resolve("mods");
@@ -56,12 +59,24 @@ public class ModHubClient implements ClientModInitializer {
                 GLFW.GLFW_KEY_M,
                 "key.categories.misc"));
 
+        miniMapKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key." + MOD_ID + ".minimap",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_N,
+                "key.categories.misc"));
+
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            MiniMap.tick();
             while (openKey.wasPressed()) {
                 if (client.currentScreen == null) {
                     client.setScreen(new ModHubScreen());
                 }
             }
+            while (miniMapKey.wasPressed()) {
+                MiniMap.toggle();
+            }
         });
+
+        HudRenderCallback.EVENT.register((drawContext, tickCounter) -> MiniMap.render(drawContext));
     }
 }
