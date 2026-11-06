@@ -134,8 +134,4 @@ public class ModrinthClient {
         return JsonParser.parseString(resp.body());
     }
 
-    private static String enc(String s) {
-        return URLEncoder.encode(s, StandardCharsets.U
-              TF_8);
-    }
-  }
+            return URLEncoder.encode(s, StandardCharsets.UTF_8);
