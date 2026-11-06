@@ -27,5 +27,4 @@ Requires JDK 21 and Gradle 8.10+. Run `gradle build`. The jar appears in `build/
 
 ## Not in this MVP yet
 Dependency detection, download progress with cancel and retry, the Installed Content Manager,
-the Download Manager, CurseForge, and the other content categ
-ories.
+the Download Manager, CurseForge, and the other content categories.
