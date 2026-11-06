@@ -82,6 +82,8 @@ public class ModHubScreen extends Screen {
 
         addDrawableChild(ButtonWidget.builder(Text.literal("Search"), b -> search())
                 .dimensions(mainX() + mainW() - 88, SEARCH_Y, 88, 22).build());
+        addDrawableChild(ButtonWidget.builder(Text.literal("Connect"), b -> MinecraftClient.getInstance().setScreen(new ConnectScreen(this)))
+                .dimensions(PAD, height - 84, SIDEBAR_W - PAD * 2, 20).build());
         addDrawableChild(ButtonWidget.builder(Text.literal("Refresh Game"), b -> refreshGame())
                 .dimensions(PAD, height - 58, SIDEBAR_W - PAD * 2, 20).build());
         addDrawableChild(ButtonWidget.builder(Text.literal(parent == null ? "Close" : "Back"), b -> close())
@@ -305,5 +307,4 @@ public class ModHubScreen extends Screen {
         while (cur.getCause() != null) cur = cur.getCause();
         return cur.getMessage() == null ? cur.getClass().getSimpleName() : cur.getMessage();
     }
-  }
-          
+}
